@@ -55,8 +55,7 @@ const mockRestaurantList = [
       sigungu: '군포시',
     },
     category: '한식',
-    imgSrc:
-      'http://ph.spotvnews.co.kr/news/photo/201902/267761_329304_0743.jpg',
+    imgSrc: 'https://img.hankyung.com/photo/201905/03.19618685.1.jpg',
   },
   {
     id: 6,
@@ -67,7 +66,7 @@ const mockRestaurantList = [
     },
     category: '한식',
     imgSrc:
-      'https://mblogthumb-phinf.pstatic.net/MjAyMDA0MjBfMTA1/MDAxNTg3MzA5NDkwNjc4.HxVAbVkabnOZf3u7xatnzrdfdoIR9JsUZVijjN8WWbIg.hGmumxpWbJ19iIQgZlLFPhVtchaRERSJtha4mAB65tog.JPEG.eett7777/IMG_2966.jpg?type=w800',
+      'https://image.ytn.co.kr/osen/2020/07/ddfd0b77-73c5-4b18-9a07-33b65c12b312.jpg',
   },
   {
     id: 7,
@@ -77,8 +76,7 @@ const mockRestaurantList = [
       sigungu: '군포시',
     },
     category: '한식',
-    imgSrc:
-      'https://i.pinimg.com/originals/5c/03/0c/5c030c3a53a3d7e7d39471a2dfa7abe1.jpg',
+    imgSrc: 'https://i.ytimg.com/vi/nSGjL2yHnuU/maxresdefault.jpg',
   },
   {
     id: 8,
@@ -88,28 +86,19 @@ const mockRestaurantList = [
       sigungu: '군포시',
     },
     category: '한식',
-    imgSrc: 'https://i.ytimg.com/vi/1CWN3XzQHIA/maxresdefault.jpg',
+    imgSrc:
+      'https://t1.daumcdn.net/liveboard/hairfit/8151c499a80f46d1bb70a621cf5d38e9.JPG',
   },
 ]
 
-mockRestaurantList
-  .reduce((list, item) => {
-    list.push(item)
-    list.push(item)
-    list.push(item)
-    list.push(item)
-    list.push(item)
-    list.push(item)
-    list.push(item)
-    list.push(item)
-    return list
-  }, [])
-  .map((item) => {
-    mockRestaurantList.push(item)
-  })
+for (let i = 0; i < 136; i++) {
+  const copy = { ...mockRestaurantList[i % 8] }
+  copy.id = copy.id + (i + 1) * 8
+  mockRestaurantList.push(copy)
+}
 
-const LOAD_GAP = 200
-const LOAD_SIZE = 20
+const LOAD_GAP = 300
+const LOAD_SIZE = 24
 
 const List: React.FC = () => {
   const listPage = useRef(null)
