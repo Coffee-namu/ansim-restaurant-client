@@ -1,8 +1,9 @@
 import { format } from 'date-fns'
 import GoogleMapReact from 'google-map-react'
 import { Box, Button, Heading, Image, Paragraph, TextArea } from 'grommet'
+import { GetServerSideProps } from 'next'
 import React, { useState } from 'react'
-import styles from '../styles/details.module.scss'
+import styles from '../../styles/details.module.scss'
 
 type Review = {
   username: string
@@ -97,7 +98,11 @@ const ReviewItem: React.FC<Review> = ({ username, content, reviewdAt }) => {
   )
 }
 
-const Details: React.FC = () => {
+type DetailsPageProps = {
+  restaurantName: string
+}
+
+const Details: React.FC<DetailsPageProps> = () => {
   const [newReviewModalOpen, setNewReviewModalOpen] = useState(false)
 
   return (
@@ -179,3 +184,15 @@ const Details: React.FC = () => {
 }
 
 export default Details
+
+export const getServerSideProps: GetServerSideProps<DetailsPageProps> = async ({
+  params,
+}) => {
+  console.log(typeof params.restaurantId)
+
+  return {
+    props: {
+      restaurantName: '',
+    },
+  }
+}
