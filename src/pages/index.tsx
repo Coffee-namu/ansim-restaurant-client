@@ -1,13 +1,12 @@
-import { Button } from 'grommet'
-import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import styles from '../styles/Home.module.css'
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      <img src="/logo.svg" />
+      <img src="/logo.svg" className={styles.logo} />
       <Link href="/list">
-        <Button label="시작하기" className={styles.start} />
+        <button className={styles.start}>시작하기</button>
       </Link>
     </div>
   )
