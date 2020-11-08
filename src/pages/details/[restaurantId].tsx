@@ -63,21 +63,29 @@ const NewReviewModal: React.FC<{ done: (content: string) => void }> = ({
           value={content}
           onChange={(event) => setContent(event.target.value)}
         />
-        <Box direction="row">
-          <Button
-            label="취소"
+        <Box
+          direction="row"
+          justify="center"
+          margin={{
+            top: '20px',
+          }}
+        >
+          <button
             onClick={() => {
               setContent('')
               done(null)
             }}
-          />
-          <Button
-            label="완료"
+          >
+            취소
+          </button>
+          <button
             onClick={() => {
               setContent('')
               done(content)
             }}
-          />
+          >
+            완료
+          </button>
         </Box>
       </div>
     </div>
@@ -111,8 +119,9 @@ const Details: React.FC<DetailsPageProps> = ({ restaurantName }) => {
         onClick={() => {
           window.history.back()
         }}
+        className={styles.back}
       >
-        뒤로가기
+        &lt; 뒤로가기
       </button>
       <Heading>{restaurantName}</Heading>
       <div className={styles['image-wrapper']}>
