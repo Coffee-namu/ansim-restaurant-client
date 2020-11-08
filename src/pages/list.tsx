@@ -108,8 +108,90 @@ mockRestaurantList
     mockRestaurantList.push(item)
   })
 
+const LOAD_GAP = 200
+const LOAD_SIZE = 20
+
 const List: React.FC = () => {
-  return <div>디테일</div>
+  const listPage = useRef(null)
+  const [pageNum, setPageNum] = useState(0)
+  const [restaurantList, setRestaurantList] = useState([])
+
+  const loadRestaurants = () => {
+    setTimeout(() => {
+      setRestaurantList([
+        ...restaurantList,
+        ...mockRestaurantList.slice(
+          pageNum * LOAD_SIZE,
+          (pageNum + 1) * LOAD_SIZE
+        ),
+      ])
+      setPageNum(pageNum + 1)
+    }, 20)
+  }
+
+  useEffect(() => {
+    loadRestaurants()
+  }, [])
+
+  const scrollHandler = () => {
+    const { offsetHeight, scrollTop, scrollHeight } = listPage.current
+    const gap = scrollHeight - (offsetHeight + scrollTop)
+
+    if (gap <= LOAD_GAP) {
+      loadRestaurants()
+    }
+  }
+
+  return (
+    <div
+      id={style['restaurant-list-page']}
+      onScroll={scrollHandler}
+      ref={listPage}
+    >
+      <Heading level="2" className={style['page-title']}>
+        내 주변 안심 식당
+      </Heading>
+      <div className={style['restaurant-list']}>
+        {restaurantList.map((restaurant, index) => {
+          return (
+            <Link href={`/details/${restaurant.id}`} key={index}>
+              {/* <Link href={`/details/${restaurant.id}`} key={restaurant.id}> */}
+              <Card background="light-1" className={style['card']}>
+                <CardHeader pad="none" className={style['header']}>
+                  <div
+                    className={style['restaurant-img']}
+                    style={{
+                      backgroundImage: `url(${restaurant.imgSrc})`,
+                    }}
+                  ></div>
+                </CardHeader>
+                <CardBody className={style['body']}>
+                  <div className={style['info-wrapper']}>
+                    <Text
+                      size="medium"
+                      color="dark-1"
+                      weight={500}
+                      className={style['restaurant-name']}
+                    >
+                      {restaurant.name}
+                    </Text>
+                    <Text
+                      size="small"
+                      color="dark-2"
+                      className={style['restaurant-location']}
+                    >
+                      {restaurant.location.sido} {restaurant.location.sigungu}
+                    </Text>
+                  </div>
+                  <div className={style['category']}>{restaurant.category}</div>
+                </CardBody>
+              </Card>
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 export default List
