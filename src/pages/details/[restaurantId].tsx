@@ -102,7 +102,7 @@ type DetailsPageProps = {
   restaurantName: string
 }
 
-const Details: React.FC<DetailsPageProps> = () => {
+const Details: React.FC<DetailsPageProps> = ({ restaurantName }) => {
   const [newReviewModalOpen, setNewReviewModalOpen] = useState(false)
 
   return (
@@ -114,7 +114,7 @@ const Details: React.FC<DetailsPageProps> = () => {
       >
         뒤로가기
       </button>
-      <Heading>홍콩반점</Heading>
+      <Heading>{restaurantName}</Heading>
       <div className={styles['image-wrapper']}>
         <Image
           className={styles['image']}
@@ -189,10 +189,11 @@ export const getServerSideProps: GetServerSideProps<DetailsPageProps> = async ({
   params,
 }) => {
   console.log(typeof params.restaurantId)
+  // 레스토랑 정보 fetch
 
   return {
     props: {
-      restaurantName: '',
+      restaurantName: '홍콩반점',
     },
   }
 }
