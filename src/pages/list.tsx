@@ -92,6 +92,22 @@ const mockRestaurantList = [
   },
 ]
 
+mockRestaurantList
+  .reduce((list, item) => {
+    list.push(item)
+    list.push(item)
+    list.push(item)
+    list.push(item)
+    list.push(item)
+    list.push(item)
+    list.push(item)
+    list.push(item)
+    return list
+  }, [])
+  .map((item) => {
+    mockRestaurantList.push(item)
+  })
+
 const List: React.FC = () => {
   return <div>디테일</div>
 }
