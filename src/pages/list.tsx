@@ -122,11 +122,22 @@ const List: React.FC = () => {
     loadRestaurants()
   }, [])
 
+  let [isScrollAllow, isLoadAllow] = [true, true]
   const scrollHandler = () => {
+    if (!isScrollAllow) return
+    isScrollAllow = false
+
+    setTimeout(() => {
+      isScrollAllow = true
+    })
+
     const { offsetHeight, scrollTop, scrollHeight } = listPage.current
     const gap = scrollHeight - (offsetHeight + scrollTop)
 
     if (gap <= LOAD_GAP) {
+      if (!isLoadAllow) return
+      isLoadAllow = false
+
       loadRestaurants()
     }
   }
