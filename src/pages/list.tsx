@@ -3,7 +3,18 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import style from '../styles/list.module.scss'
 
-const mockRestaurantList = [
+type Restaurant = {
+  id: number
+  name: string
+  location: {
+    sido: string
+    sigungu: string
+  }
+  category: string
+  imgSrc: string
+}
+
+const mockRestaurantList: Restaurant[] = [
   {
     id: 1,
     name: '새마을식당1',
@@ -102,8 +113,8 @@ const LOAD_SIZE = 24
 
 const List: React.FC = () => {
   const listPage = useRef(null)
-  const [pageNum, setPageNum] = useState(0)
-  const [restaurantList, setRestaurantList] = useState([])
+  const [pageNum, setPageNum] = useState<number>(0)
+  const [restaurantList, setRestaurantList] = useState<Restaurant[]>([])
 
   const loadRestaurants = () => {
     setTimeout(() => {
@@ -152,10 +163,9 @@ const List: React.FC = () => {
         내 주변 안심 식당
       </Heading>
       <div className={style['restaurant-list']}>
-        {restaurantList.map((restaurant, index) => {
+        {restaurantList.map((restaurant) => {
           return (
-            <Link href={`/details/${restaurant.id}`} key={index}>
-              {/* <Link href={`/details/${restaurant.id}`} key={restaurant.id}> */}
+            <Link href={`/details/${restaurant.id}`} key={restaurant.id}>
               <Card background="light-1" className={style['card']}>
                 <CardHeader pad="none" className={style['header']}>
                   <div
