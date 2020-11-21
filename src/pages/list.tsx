@@ -108,33 +108,85 @@ for (let i = 0; i < 136; i++) {
   mockRestaurantList.push(copy)
 }
 
-const LOAD_GAP = 300
-const LOAD_SIZE = 24
+const LOAD_GAP: number = 300
+const LOAD_SIZE: number = 24
+const TIME_GAP: number = 1000 * 60 * 10 // 600000ms = 10minutes
+
+const restaurantListCache = (() => {
+  const RESTAURANT_LIST: string = 'restaurantList'
+  const PAGE_NUM: string = 'pageNum'
+  const TIME: string = 'time'
+
+  return {
+    get(): [Restaurant[], number, Date] {
+      return [
+        JSON.parse(localStorage.getItem(RESTAURANT_LIST)),
+        +localStorage.getItem(PAGE_NUM),
+        new Date(localStorage.getItem(TIME)),
+      ]
+    },
+    set: (restaurantList: Restaurant[], pageNum: number): void => {
+      if (+localStorage.getItem(PAGE_NUM) !== pageNum)
+        localStorage.setItem(TIME, new Date().toString())
+
+      localStorage.setItem(RESTAURANT_LIST, JSON.stringify(restaurantList))
+      localStorage.setItem(PAGE_NUM, JSON.stringify(pageNum))
+    },
+  }
+})()
 
 const List: React.FC = () => {
   const listPage = useRef(null)
   const [pageNum, setPageNum] = useState<number>(0)
   const [restaurantList, setRestaurantList] = useState<Restaurant[]>([])
 
-  const loadRestaurants = () => {
-    setTimeout(() => {
-      setRestaurantList([
-        ...restaurantList,
-        ...mockRestaurantList.slice(
-          pageNum * LOAD_SIZE,
-          (pageNum + 1) * LOAD_SIZE
-        ),
-      ])
-      setPageNum(pageNum + 1)
+  const loadRestaurants = (): void => {
+    setTimeout(async () => {
+      const loadAPI = () => {
+        return new Promise<Restaurant[]>((resolve, reject) => {
+          setTimeout(function () {
+            const loadedList = mockRestaurantList.slice(
+              pageNum * LOAD_SIZE,
+              (pageNum + 1) * LOAD_SIZE
+            )
+            resolve(loadedList)
+          }, 200)
+        })
+      }
+
+      const loadedList = await loadAPI()
+
+      if (loadedList.length > 0) {
+        setRestaurantList([...restaurantList, ...loadedList])
+        setPageNum(pageNum + 1)
+      }
     }, 20)
   }
 
   useEffect(() => {
-    loadRestaurants()
+    const [
+      cachedRestaurantList,
+      cachedPageNum,
+      cachedtime,
+    ] = restaurantListCache.get()
+
+    const timeGap = new Date().getTime() - cachedtime.getTime()
+
+    if (timeGap < TIME_GAP && cachedRestaurantList && cachedPageNum) {
+      setRestaurantList(cachedRestaurantList)
+      setPageNum(cachedPageNum)
+    } else {
+      loadRestaurants()
+    }
   }, [])
 
-  let [isScrollAllow, isLoadAllow] = [true, true]
-  const scrollHandler = () => {
+  useEffect(() => {
+    if (restaurantList && pageNum)
+      restaurantListCache.set(restaurantList, pageNum)
+  }, [restaurantList, pageNum])
+
+  let [isScrollAllow, isLoadAllow]: [boolean, boolean] = [true, true]
+  const scrollHandler = (): void => {
     if (!isScrollAllow) return
     isScrollAllow = false
 
