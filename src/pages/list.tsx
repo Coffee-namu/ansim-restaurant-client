@@ -17,86 +17,86 @@ type Restaurant = {
 const mockRestaurantList: Restaurant[] = [
   {
     id: 1,
-    name: '새마을식당1',
+    name: '봉이돈까스',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '서울시',
+      sigungu: '관악구',
     },
-    category: '한식',
+    category: '양식',
     imgSrc:
       'http://ph.spotvnews.co.kr/news/photo/201902/267761_329304_0743.jpg',
   },
   {
     id: 2,
-    name: '새마을식당2',
+    name: '쿠모식당',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '서울시',
+      sigungu: '관악구',
     },
-    category: '한식',
+    category: '일식',
     imgSrc:
       'https://mblogthumb-phinf.pstatic.net/MjAyMDA0MjBfMTA1/MDAxNTg3MzA5NDkwNjc4.HxVAbVkabnOZf3u7xatnzrdfdoIR9JsUZVijjN8WWbIg.hGmumxpWbJ19iIQgZlLFPhVtchaRERSJtha4mAB65tog.JPEG.eett7777/IMG_2966.jpg?type=w800',
   },
   {
     id: 3,
-    name: '새마을식당3',
+    name: '그림나베',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '서울시',
+      sigungu: '서초구',
     },
-    category: '한식',
+    category: '일식',
     imgSrc:
       'https://i.pinimg.com/originals/5c/03/0c/5c030c3a53a3d7e7d39471a2dfa7abe1.jpg',
   },
   {
     id: 4,
-    name: '새마을식당4',
+    name: '유타로',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '인천시',
+      sigungu: '남동구',
     },
-    category: '한식',
+    category: '일식',
     imgSrc: 'https://i.ytimg.com/vi/1CWN3XzQHIA/maxresdefault.jpg',
   },
   {
     id: 5,
-    name: '새마을식당1',
+    name: '준호네 부대찌개',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '서울시',
+      sigungu: '동작구',
     },
     category: '한식',
     imgSrc: 'https://img.hankyung.com/photo/201905/03.19618685.1.jpg',
   },
   {
     id: 6,
-    name: '새마을식당2',
+    name: '아방궁',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '서울시',
+      sigungu: '강남구',
     },
-    category: '한식',
+    category: '중식',
     imgSrc:
       'https://image.ytn.co.kr/osen/2020/07/ddfd0b77-73c5-4b18-9a07-33b65c12b312.jpg',
   },
   {
     id: 7,
-    name: '새마을식당3',
+    name: '토끼정',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '서울시',
+      sigungu: '강남구',
     },
-    category: '한식',
+    category: '일식',
     imgSrc: 'https://i.ytimg.com/vi/nSGjL2yHnuU/maxresdefault.jpg',
   },
   {
     id: 8,
-    name: '새마을식당4',
+    name: '은행골',
     location: {
-      sido: '경기도',
-      sigungu: '군포시',
+      sido: '서울시',
+      sigungu: '동작구',
     },
-    category: '한식',
+    category: '일식',
     imgSrc:
       'https://t1.daumcdn.net/liveboard/hairfit/8151c499a80f46d1bb70a621cf5d38e9.JPG',
   },
