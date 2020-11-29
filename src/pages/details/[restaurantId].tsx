@@ -4,6 +4,7 @@ import GoogleMapReact from 'google-map-react'
 import { Box, Button, Heading, Image, Paragraph, TextArea } from 'grommet'
 import { GetServerSideProps } from 'next'
 import React, { useEffect, useState } from 'react'
+import { CATEGORIES } from '../../constants/categories'
 import styles from '../../styles/details.module.scss'
 import { apiHost } from '../../utils/api-host'
 
@@ -143,9 +144,12 @@ const Details: React.FC<DetailsPageProps> = ({ restaurantInfo }) => {
         }}
         className={styles.back}
       >
-        &lt; 뒤로가기
+        뒤로가기
       </button>
-      <Heading>{restaurantInfo['name']}</Heading>
+      <p className={styles['category']}>
+        {CATEGORIES[restaurantInfo['category_id']]}
+      </p>
+      <Heading className={styles['name']}>{restaurantInfo['name']}</Heading>
       {/* <div className={styles['image-wrapper']}>
         <Image
           className={styles['image']}
