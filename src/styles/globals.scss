@@ -14,3 +14,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+input,
+textarea {
+  &:focus {
+    box-shadow: 0 0 0 2px #6fb9ff !important;
+  }
+}
