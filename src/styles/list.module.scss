@@ -55,9 +55,10 @@ $breakpoint-mobile: 1040px;
     }
 
     .card {
+      transition: 0.1s ease-in;
+      
       &:hover {
         transform: scale(1.015);
-        transition: 0.1s ease-in;
       }
 
       .header {
