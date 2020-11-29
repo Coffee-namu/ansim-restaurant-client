@@ -54,8 +54,10 @@ const Page: NextPage = () => {
               username: state.username,
               password: state.password,
             })
-            .then(() => {
+            .then(({ data }) => {
+              console.log(data)
               window.location.href = '/list'
+              localStorage.setItem('member_id', data['member_id'])
             })
             .catch(() => {
               alert('아이디 패스워드를 다시 한 번 확인해주세요')
