@@ -1,9 +1,11 @@
+import Axios from 'axios'
 import { format } from 'date-fns'
 import GoogleMapReact from 'google-map-react'
 import { Box, Button, Heading, Image, Paragraph, TextArea } from 'grommet'
 import { GetServerSideProps } from 'next'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../../styles/details.module.scss'
+import { apiHost } from '../../utils/api-host'
 
 type Review = {
   username: string
@@ -107,11 +109,31 @@ const ReviewItem: React.FC<Review> = ({ username, content, reviewdAt }) => {
 }
 
 type DetailsPageProps = {
-  restaurantName: string
+  restaurantInfo: {
+    restaurant_id: number
+    category_id: number
+    member_id: number
+    name: string
+    owner: boolean | null
+    phone: boolean | null
+    location: string
+    geolocation_x: number
+    geolocation_y: number
+    description: string
+    api_code_mafra: string
+    api_code_gg: string
+    is_trusty: number
+    created: string
+  }
 }
 
-const Details: React.FC<DetailsPageProps> = ({ restaurantName }) => {
+const Details: React.FC<DetailsPageProps> = ({ restaurantInfo }) => {
   const [newReviewModalOpen, setNewReviewModalOpen] = useState(false)
+  const [memberId, setMemberId] = useState(null)
+
+  useEffect(() => {
+    setMemberId(localStorage.getItem('member_id'))
+  }, [setMemberId])
 
   return (
     <div id={styles['details-page']}>
@@ -123,36 +145,44 @@ const Details: React.FC<DetailsPageProps> = ({ restaurantName }) => {
       >
         &lt; 뒤로가기
       </button>
-      <Heading>{restaurantName}</Heading>
-      <div className={styles['image-wrapper']}>
+      <Heading>{restaurantInfo['name']}</Heading>
+      {/* <div className={styles['image-wrapper']}>
         <Image
           className={styles['image']}
           fit="cover"
           src="https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/20180922025357836_photo1_73870946ffb8.jpg"
         />
-      </div>
-      <Paragraph fill className={styles.description}>
-        식당 설명임
-      </Paragraph>
+      </div> */}
 
-      <div className={styles.map}>
+      <a
+        href={`https://map.naver.com/v5/search/${restaurantInfo['location']}`}
+        target="_blank"
+        className={styles['location']}
+      >
+        <div className={styles['naver']}>네이버 지도에서 보기</div>
+        <div>{restaurantInfo['location']}</div>
+      </a>
+
+      {/* <div className={styles.map}>
         <GoogleMapReact
           defaultCenter={{ lat: 59.95, lng: 30.33 }}
           defaultZoom={11}
         ></GoogleMapReact>
-      </div>
+      </div> */}
 
       <section className={styles['reviews']}>
         <div className={styles['review-header']}>
           <h2 className={styles['title']}>리뷰</h2>
-          <button
-            className={styles.button}
-            onClick={() => {
-              setNewReviewModalOpen(true)
-            }}
-          >
-            리뷰 남기기
-          </button>
+          {memberId && (
+            <button
+              className={styles.button}
+              onClick={() => {
+                setNewReviewModalOpen(true)
+              }}
+            >
+              리뷰 남기기
+            </button>
+          )}
         </div>
         {reviews.map((review, i) => (
           <ReviewItem
@@ -184,6 +214,22 @@ const Details: React.FC<DetailsPageProps> = ({ restaurantName }) => {
             if (content) {
               // TODO: 리뷰 업로드
               console.log(content)
+              Axios.put(
+                apiHost(
+                  `/api/v1/ansim/restaurant/${restaurantInfo['restaurant_id']}`
+                ),
+                {
+                  restaurant_id: restaurantInfo['restaurant_id'],
+                  member_id: memberId,
+                  content,
+                  score: 1,
+                  created: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                }
+              )
+                .catch(() => {})
+                .finally(() => {
+                  alert('등록되었습니다.')
+                })
             }
           }}
         />
@@ -197,12 +243,16 @@ export default Details
 export const getServerSideProps: GetServerSideProps<DetailsPageProps> = async ({
   params,
 }) => {
-  console.log(typeof params.restaurantId)
   // 레스토랑 정보 fetch
+  const { data: restaurantInfo } = await Axios.get(
+    apiHost(`/api/v1/ansim/restaurant/${params.restaurantId}`)
+  )
+
+  console.log(restaurantInfo)
 
   return {
     props: {
-      restaurantName: '홍콩반점',
+      restaurantInfo,
     },
   }
 }
