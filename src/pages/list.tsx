@@ -1,10 +1,12 @@
-import axios from 'axios'
+import Axios from 'axios'
 import { Card, CardBody, CardHeader, Text, Heading } from 'grommet'
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { CATEGORIES } from '../constants/categories'
 import { getCategoryImage } from '../constants/images'
+import { CAU_LOCATION } from '../constants/locations'
 import style from '../styles/list.module.scss'
+import { apiHost } from '../utils/api-host'
 
 type Restaurant = {
   id: number
@@ -60,17 +62,14 @@ const List: React.FC = () => {
   const loadRestaurants = async () => {
     const loadAPI = async () => {
       try {
-        const { data } = await axios.get(
-          'http://localhost:3000/api/v1/ansim/',
-          {
-            params: {
-              x: 0,
-              y: 0,
-              pageNum,
-              pageSize: LOAD_SIZE,
-            },
-          }
-        )
+        const { data } = await Axios.get(apiHost(`/api/v1/ansim`), {
+          params: {
+            x: CAU_LOCATION.x,
+            y: CAU_LOCATION.y,
+            pageNum,
+            pageSize: LOAD_SIZE,
+          },
+        })
 
         return data.map((restaurant) => {
           IMAGE_KEYS[restaurant.category_id]++
