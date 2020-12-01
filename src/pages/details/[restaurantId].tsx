@@ -1,7 +1,6 @@
 import Axios from 'axios'
 import { format } from 'date-fns'
-import GoogleMapReact from 'google-map-react'
-import { Box, Button, Heading, Image, Paragraph, TextArea } from 'grommet'
+import { Box, Heading, TextArea } from 'grommet'
 import { GetServerSideProps } from 'next'
 import React, { useEffect, useState } from 'react'
 import { CATEGORIES } from '../../constants/categories'
@@ -9,43 +8,9 @@ import styles from '../../styles/details.module.scss'
 import { apiHost } from '../../utils/api-host'
 
 type Review = {
-  username: string
   content: string
-  reviewdAt: number
+  created: string
 }
-
-const reviews: Review[] = [
-  {
-    username: '최현준',
-    content: '맛없어요',
-    reviewdAt: Date.now(),
-  },
-  {
-    username: '최현준',
-    content: '맛없어요',
-    reviewdAt: Date.now(),
-  },
-  {
-    username: '최현준',
-    content: '맛없어요',
-    reviewdAt: Date.now(),
-  },
-  {
-    username: '최현준',
-    content: '맛없어요',
-    reviewdAt: Date.now(),
-  },
-  {
-    username: '최현준',
-    content: '맛없어요',
-    reviewdAt: Date.now(),
-  },
-  {
-    username: '최현준',
-    content: '맛없어요',
-    reviewdAt: Date.now(),
-  },
-]
 
 const NewReviewModal: React.FC<{ done: (content: string) => void }> = ({
   done,
@@ -95,13 +60,13 @@ const NewReviewModal: React.FC<{ done: (content: string) => void }> = ({
   )
 }
 
-const ReviewItem: React.FC<Review> = ({ username, content, reviewdAt }) => {
+const ReviewItem: React.FC<Review> = ({ content, created }) => {
   return (
     <div className={styles['review-item']}>
       <div className={styles['username-date']}>
-        <span className={styles['username']}>{username}</span>
+        {/* <span className={styles['username']}>{username}</span> */}
         <span className={styles['date']}>
-          {format(reviewdAt, 'MM/dd HH:mm')}
+          {format(new Date(created), 'MM/dd HH:mm')}
         </span>
       </div>
       <div>{content}</div>
@@ -131,9 +96,18 @@ type DetailsPageProps = {
 const Details: React.FC<DetailsPageProps> = ({ restaurantInfo }) => {
   const [newReviewModalOpen, setNewReviewModalOpen] = useState(false)
   const [memberId, setMemberId] = useState(null)
+  const [reviews, setReviews] = useState<Review[]>([])
 
   useEffect(() => {
     setMemberId(localStorage.getItem('member_id'))
+
+    Axios.get(
+      apiHost(
+        `/api/v1/ansim/restaurant/${restaurantInfo.restaurant_id}/reviews`
+      )
+    ).then((res) => {
+      setReviews(res.data)
+    })
   }, [setMemberId])
 
   return (
@@ -189,21 +163,8 @@ const Details: React.FC<DetailsPageProps> = ({ restaurantInfo }) => {
           )}
         </div>
         {reviews.map((review, i) => (
-          <ReviewItem
-            {...{ ...review, reviewdAt: review.reviewdAt - i * 100000000 }}
-            key={i}
-          />
+          <ReviewItem {...review} key={i} />
         ))}
-
-        <button
-          className={styles.button}
-          style={{
-            width: '100%',
-            textAlign: 'center',
-          }}
-        >
-          리뷰 더
-        </button>
       </section>
 
       <div
@@ -233,6 +194,13 @@ const Details: React.FC<DetailsPageProps> = ({ restaurantInfo }) => {
                 .catch(() => {})
                 .finally(() => {
                   alert('등록되었습니다.')
+                  Axios.get(
+                    apiHost(
+                      `/api/v1/ansim/restaurant/${restaurantInfo.restaurant_id}/reviews`
+                    )
+                  ).then((res) => {
+                    setReviews(res.data)
+                  })
                 })
             }
           }}
