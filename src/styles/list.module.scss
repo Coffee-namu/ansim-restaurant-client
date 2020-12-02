@@ -25,14 +25,26 @@ $breakpoint-mobile: 1040px;
     padding: 30px $page-padding-mobile 72px;
   }
 
-  .page-title {
-    margin: {
-      top: 0;
-      bottom: 64px;
-    }
+  > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 64px;
 
     @include mobile {
       margin-bottom: 28px;
+    }
+
+    .page-title {
+      margin: 0;
+    }
+
+    a {
+      color: #777;
+
+      &:hover {
+        color: #333;
+      }
     }
   }
 
