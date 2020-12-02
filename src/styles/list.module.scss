@@ -25,14 +25,26 @@ $breakpoint-mobile: 1040px;
     padding: 30px $page-padding-mobile 72px;
   }
 
-  .page-title {
-    margin: {
-      top: 0;
-      bottom: 64px;
-    }
+  > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 64px;
 
     @include mobile {
       margin-bottom: 28px;
+    }
+
+    .page-title {
+      margin: 0;
+    }
+
+    a {
+      color: #777;
+
+      &:hover {
+        color: #333;
+      }
     }
   }
 
@@ -95,6 +107,16 @@ $breakpoint-mobile: 1040px;
           .restaurant-name {
             display: block;
             margin-bottom: 8px;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
+            -moz-text-overflow: ellipsis;
+
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            word-break: break-word;
 
             @include mobile {
               font-size: 14px;

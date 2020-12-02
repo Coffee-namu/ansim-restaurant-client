@@ -9,7 +9,6 @@ export const IMAGES = {
     'https://cdn.mkhealth.co.kr/news/photo/201911/img_MKH191128001_0.jpg',
     'https://newsimg.hankookilbo.com/cms/articlerelease/2020/06/11/202006111362061920_7.jpg',
     'https://image.yes24.com/momo/TopCate2049/MidCate10/204897291.jpg',
-    'https://lh3.googleusercontent.com/proxy/fZn37vfxokWuwh0mH0DAA3I0ZPPQJ_xTfogz9qaShrNCjVhBAgkaYhrMR1DGHBbarHtfx-fE1Qe4Fd8rCNwaDzwnv6BOvnzMXkKQOHOo4PG2aJccVA',
     'https://www.sommeliertimes.com/news/photo/201801/7373_15034_1510.jpg',
     'https://i.pinimg.com/564x/bf/05/a8/bf05a834d7bdeb7ae6d2425dacd5921c.jpg',
     'https://mp-seoul-image-production-s3.mangoplate.com/1104193_1578575102944934.jpg?fit=around|738:738&crop=738:738;*,*&output-format=jpg&output-quality=80'

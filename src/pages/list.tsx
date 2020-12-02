@@ -151,46 +151,47 @@ const List: React.FC = () => {
       onScroll={scrollHandler}
       ref={listPage}
     >
-      <Heading level="2" className={style['page-title']}>
-        내 주변 안심 식당
-      </Heading>
+      <header className={style['header']}>
+        <Heading level="2" className={style['page-title']}>
+          내 주변 안심 식당
+        </Heading>
+        <Link href={'/board'}>게시판</Link>
+      </header>
       <div className={style['restaurant-list']}>
-        {restaurantList.map((restaurant) => {
-          return (
-            <Link href={`/details/${restaurant.id}`} key={restaurant.id}>
-              <Card background="light-1" className={style['card']}>
-                <CardHeader pad="none" className={style['header']}>
-                  <div
-                    className={style['restaurant-img']}
-                    style={{
-                      backgroundImage: `url(${restaurant.imgSrc})`,
-                    }}
-                  ></div>
-                </CardHeader>
-                <CardBody className={style['body']}>
-                  <div className={style['info-wrapper']}>
-                    <Text
-                      size="medium"
-                      color="dark-1"
-                      weight={500}
-                      className={style['restaurant-name']}
-                    >
-                      {restaurant.name}
-                    </Text>
-                    <Text
-                      size="small"
-                      color="dark-2"
-                      className={style['restaurant-location']}
-                    >
-                      {restaurant.location.sido} {restaurant.location.sigungu}
-                    </Text>
-                  </div>
-                  <div className={style['category']}>{restaurant.category}</div>
-                </CardBody>
-              </Card>
-            </Link>
-          )
-        })}
+        {restaurantList.map((restaurant) => (
+          <Link href={`/details/${restaurant.id}`} key={restaurant.id}>
+            <Card background="light-1" className={style['card']}>
+              <CardHeader pad="none" className={style['header']}>
+                <div
+                  className={style['restaurant-img']}
+                  style={{
+                    backgroundImage: `url(${restaurant.imgSrc})`,
+                  }}
+                ></div>
+              </CardHeader>
+              <CardBody className={style['body']}>
+                <div className={style['info-wrapper']}>
+                  <Text
+                    size="medium"
+                    color="dark-1"
+                    weight={500}
+                    className={style['restaurant-name']}
+                  >
+                    {restaurant.name}
+                  </Text>
+                  <Text
+                    size="small"
+                    color="dark-2"
+                    className={style['restaurant-location']}
+                  >
+                    {restaurant.location.sido} {restaurant.location.sigungu}
+                  </Text>
+                </div>
+                <div className={style['category']}>{restaurant.category}</div>
+              </CardBody>
+            </Card>
+          </Link>
+        ))}
       </div>
     </div>
   )
